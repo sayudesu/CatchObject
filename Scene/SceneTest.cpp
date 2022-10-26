@@ -2,11 +2,14 @@
 #include "game.h"
 #include "SceneTest.h"
 
-
 namespace
 {
+	constexpr int kObjectNum = 4;
 }
-
+SceneTest::SceneTest():
+	m_circle(kObjectNum)
+{
+}
 void SceneTest::init()
 {
 	int index = 0;
@@ -31,9 +34,31 @@ void SceneTest::end()
 
 SceneBase* SceneTest::update()
 {
+	/*
 	for (auto& obj : m_circle)
 	{
 		obj.update();
+	}
+	*/
+	for (int i = 0; i < m_circle.size(); i++)
+	{
+		//自信以外をすべてチェックしてつかまれているものが１つでもあるかを調べる
+		bool isCatchOthr = false;
+		for (int  j = 0; j < m_circle.size(); j++)
+		{
+			if (i == j) continue;
+
+			if (m_circle[j].isCatchinvalid())
+			{
+				isCatchOthr = true;
+			}
+		}
+
+		if (!isCatchOthr) //１つでもつかまれていなければ
+		{
+			m_circle[i].update();
+		}
+
 	}
 	return this;
 }
